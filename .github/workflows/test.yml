@@ -45,12 +45,12 @@ jobs:
           GITLAB_OAUTH_APPLICATION_SECRET: ${{ secrets.GITLAB_OAUTH_APPLICATION_SECRET }}
           GITLAB_PAT: ${{ secrets.GITLAB_PAT }}
         run: echo $GITHUB_TOKEN && node ./scripts/print.js
-      - name: Test repository dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: tests
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+      # - name: Test repository dispatch
+      #   uses: peter-evans/repository-dispatch@v2
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     event-type: tests
+      #     client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
       # - name: Install dependencies
       #   run: yarn
       # - name: Build application
