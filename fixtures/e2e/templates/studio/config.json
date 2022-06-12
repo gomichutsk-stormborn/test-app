@@ -1,0 +1,19 @@
+{
+  "appName": "studio",
+  "env": "test",
+  "sdlc": {
+    "url": "${legend.sdlc.server.host}:${legend.sdlc.server.port}/api",
+    "baseHeaders": {
+      "${legend.sdlc.server.header.pat}": "${gitlab.pat}"
+    }
+  },
+  "depot": {
+    "url": "https://legend.finos.org/unused"
+  },
+  "engine": {
+    "url": "${legend.engine.server.host}:${legend.engine.server.port}/api"
+  },
+  "documentation": {
+    "url": "https://legend.finos.org"
+  }
+}

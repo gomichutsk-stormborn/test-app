@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+
+  sdlc:
+    container_name: ${legend.sdlc.docker.container-name}
+    image: ${legend.sdlc.docker.image-name}:${legend.sdlc.docker.image-tag}
+    ports:
+      - ${legend.sdlc.server.port}:${legend.sdlc.server.port}
+    networks:
+      - legend
+    volumes:
+      - ${build.dir}/sdlc:/config
+    command: |
+      java
+        -cp /app/bin/*
+        org.finos.legend.sdlc.server.LegendSDLCServer server /config/config.yml
+
+  engine:
+    container_name: ${legend.engine.docker.container-name}
+    image: ${legend.engine.docker.image-name}:${legend.engine.docker.image-tag}
+    ports:
+      - ${legend.engine.server.port}:${legend.engine.server.port}
+    networks:
+      - legend
+    volumes:
+      - ${build.dir}/engine:/config
+    command: |
+      java
+        -cp /app/bin/*
+        org.finos.legend.engine.server.Server server /config/config.yml
+
+  studio:
+    container_name: ${legend.studio.docker.container-name}
+    image: ${legend.studio.docker.image-name}:${legend.studio.docker.image-tag}
+    depends_on:
+      - sdlc
+      - engine
+    ports:
+      - ${legend.studio.server.port}:${legend.studio.server.port}
+    networks:
+      - legend
+    volumes:
+      - ${build.dir}/studio:/config
+    command: |
+      java
+        -cp /app/bin/webapp-content:/app/bin/*
+        org.finos.legend.server.shared.staticserver.Server server /config/config.yml
+
+networks:
+  legend: {}
