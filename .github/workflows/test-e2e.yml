@@ -17,3 +17,10 @@ jobs:
           ref: ${{ github.event.client_payload.ref }}
 
       - run: echo ${{ github.event.client_payload.sha }}
+      - name: DUMMY
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLAB_OAUTH_APPLICATION_CLIENT_ID: ${{ secrets.GITLAB_OAUTH_APPLICATION_CLIENT_ID }}
+          GITLAB_OAUTH_APPLICATION_SECRET: ${{ secrets.GITLAB_OAUTH_APPLICATION_SECRET }}
+          GITLAB_PAT: ${{ secrets.GITLAB_PAT }}
+        run: echo $GITHUB_TOKEN && node ./scripts/print.js
