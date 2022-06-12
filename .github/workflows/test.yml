@@ -1,14 +1,14 @@
 name: Test
 
-on: [push, pull_request]
-# on:
-#   push:
-#     branches:
-#       - master
-#       - 'release/**'
-#   pull_request:
-#     branches:
-#       - '**'
+# on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+      - 'release/**'
+  pull_request:
+    branches:
+      - '**'
 
 # Cancel running jobs from previous pipelines of the same workflow on PR to save resource when commits are pushed quickly
 # NOTE: we don't want this behavior on default branch
