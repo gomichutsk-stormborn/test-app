@@ -1,31 +1,19 @@
+name: Repository Dispatch
 on:
-  workflow_run:
-    workflows: ["Test"]
-    types:
-      - requested
-
-concurrency:
-  group: ${{ github.ref == 'refs/heads/master' && format('ci-default-branch-{0}-{1}', github.sha, github.workflow) || format('ci-pr-{0}-{1}', github.ref, github.workflow) }}
-  cancel-in-progress: true
-
+  repository_dispatch:
+    types: [tests]
 jobs:
-  e2e:
-    name: e2e
+  tests:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Get Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-      - name: Setup Yarn cache
-        uses: actions/cache@v3
-        id: yarn-cache
+      - name: Dump the client payload context
+        env:
+          PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
+        run: echo "$PAYLOAD_CONTEXT"
+
+      - uses: actions/checkout@v3
+        if: github.event.client_payload.ref != ''
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-yarn-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
+          ref: ${{ github.event.client_payload.ref }}
+
+      - run: echo ${{ github.event.client_payload.sha }}
