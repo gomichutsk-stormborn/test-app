@@ -41,7 +41,7 @@ jobs:
       - name: DUMMY
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: echo $GITHUB_TOKEN
+        run: echo $GITHUB_TOKEN && node ./scripts/print.js
       # - name: Install dependencies
       #   run: yarn
       # - name: Build application
