@@ -8,3 +8,4 @@ console.log(
 );
 console.log("GITLAB_PAT:", process.env.GITLAB_PAT);
 console.log("GITHUB_TOKEN:", process.env.GITHUB_TOKEN);
+console.log('dangerous now');
